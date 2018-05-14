@@ -241,3 +241,61 @@
         speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
         ```
 - Math.abs()    求绝对值
+
+#### 事件
+
+##### 事件默认行为：浏览器自带的功能（如鼠标右键菜单）
+- document.oncontentmenu    右键菜单事件
+    - ```javascript return false; // 阻止默认事件```
+    - 应用：1.阻止右键菜单，定义自己的菜单；2.只能输入数字的输入框，配合 keydown 事件使用
+
+##### 拖拽
+- onmousedown   鼠标按下事件
+- onmousemove   鼠标移动事件;  注：在 onmousedown 里添加该事件
+- onmouseup     鼠标抬起事件   注：清除 onmousemove 事件，设置为 null
+```javascript
+    // 鼠标位置到物体左上角的距离
+    var disX = 0;   
+    var disY = 0;
+
+    // 拖拽物体绑定鼠标按下事件
+    oDiv.onmousedown = function (ev){
+        var oEvent = ev || event;
+
+        disX = oEvent.clientX - this.offsetLeft;
+        disY = oEvent.clientY - this.offsetTop;
+
+        // document 绑定鼠标移动事件，解决鼠标移动太快跑出拖拽物体的 bug
+        document.onmousemove = function (ev){
+            var oEvent = ev || event;
+            var left = oEvent.clientX - disX;
+            var top = oEvent.clientY - disY;
+
+            var lClient = document.clientWidth - oDiv.offsetWidth;  // 物体贴住右边界的距离 
+            var tClient = document.clientHeight - oDiv.offsetHeight;    // 物体贴住下边界的距离
+
+            if (left<0) {
+                left = 0;   // 防止物体离开可视区的左边界
+            } else if (left > lClient) {
+                left = lClient;
+            }
+
+            if (top<0) {
+                top = 0;
+            } else if (top > tClient) {
+                top = tClient;
+            }
+
+            oDiv.style.left = left + 'px';
+            oDiv.style.top = top + 'px';
+        }
+
+        // document 绑定鼠标抬起事件，解决鼠标不在物体区域(如：鼠标在可视区外抬起)抬起的 bug
+        document.onmouseup = function (){
+            document.onmousemove = null;
+            document.onmouseup = null;
+        } 
+
+        return false;   // firefox 中二次拖拽重影 bug 
+    }
+```
