@@ -10,8 +10,8 @@
 - 可读性：能看懂
 - 规范性：符合规则
     - 匈牙利命名法：
-        - 类型前缀（函数命名不需要）
-        - 首字母大写
+     - 类型前缀（函数命名不需要）
+     - 首字母大写
 
 #### 函数
 函数返回值
@@ -243,6 +243,28 @@
 - Math.abs()    求绝对值
 
 #### 事件
+
+##### 定义
+- event 对象：用来获取事件的详细信息，如：鼠标位置，键盘按键
+- event 兼容：```javascript var oEvent = ev || event; ``` ev 是系统传给函数的一个参数
+
+##### 鼠标坐标    
+- onmousemove: ev.clientX , ev.clientY  // 可视区坐标
+    - 配合 scrollTop/scrollLeft (可视区的滚动高度) 使用； scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+    ```javascript
+        // 获取鼠标位置。oEvent: 事件对象
+        function getPosition(oEvent){
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+            return {x: oEvent.clientX + scrollLeft , y: oEvent.clientY + scrollTop };
+        }
+    ```
+
+##### 键盘事件
+- keyCode：获取用户按下键盘的哪个按键。[keyCode 对照表](https://blog.csdn.net/tspchip/article/details/4836917)
+- onkeydown/onkeyup
+    - [onkeydown长按按键卡顿一下](https://blog.csdn.net/jp571534020/article/details/48310813)
+- event.ctrlKey/shiftKey/altKey
 
 ##### 事件默认行为：浏览器自带的功能（如鼠标右键菜单）
 - document.oncontentmenu    右键菜单事件
