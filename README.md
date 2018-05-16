@@ -272,6 +272,9 @@
     - 应用：1.阻止右键菜单，定义自己的菜单；2.只能输入数字的输入框，配合 keydown 事件使用
 
 ##### 拖拽
+- 原理
+    - 距离不变：拖拽物体和鼠标保持恒定距离
+    - 三个事件：down、move、up
 - onmousedown   鼠标按下事件
 - onmousemove   鼠标移动事件;  注：在 onmousedown 里添加该事件
 - onmouseup     鼠标抬起事件   注：清除 onmousemove 事件，设置为 null
